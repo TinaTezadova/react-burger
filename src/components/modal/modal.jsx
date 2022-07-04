@@ -18,7 +18,7 @@ const Modal = ({ handleCloseModal, children }) => {
     
     const handleCloseOnEsc = (evn) => {
         if(evn.key === 'Escape') {
-            handleCloseModal()
+            handleCloseModal(evn)
         }
 
     }
@@ -39,7 +39,7 @@ const Modal = ({ handleCloseModal, children }) => {
     }, [])
 
 
-    return !modalContainer ? null : ReactDOM.createPortal(
+    return modalContainer && ReactDOM.createPortal(
         (
             <>
                 <ModalOverlay handleModalOverlayClick={handleCloseModal} />

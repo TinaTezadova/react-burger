@@ -15,7 +15,7 @@ const NutritionValue = ({ title, value }) => {
 
 NutritionValue.propTypes = {
     title: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.number.isRequired
 }
 
 export default NutritionValue;

@@ -13,7 +13,8 @@ const BurgerConstructor = ({ ingredientsData }) => {
 
     }
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (event) => {
+        event.stopPropagation();
         setOrderDatailIsOpen(false)
     }
 

@@ -11,7 +11,8 @@ const Ingredient = ({ ingredient }) => {
         setModalIsOpen(true)
     }
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (event) => {
+        event.stopPropagation();
         setModalIsOpen(false)
     }
 

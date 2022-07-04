@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { BASE_API } from './const';
+import { getIngredients } from '../../utils/burger-api'
 import styles from './app.module.css'
 
 const App = () => {
@@ -13,14 +13,10 @@ const App = () => {
         isError: false
     });
 
-    const checkResponse = (response) => {
-        return response.ok ? response.json() : response.json().then((err) => Promise.reject(err));
-    };
-
     const getIngredientsData = async () => {
         setState({ ...state, isLoading: true });
         try {
-            const response = await fetch(BASE_API).then(checkResponse);
+            const response = await getIngredients();
             setState({ ...state, isLoading: false, ingredientsData: response.data });
         }
         catch {
@@ -40,7 +36,7 @@ const App = () => {
                 {state.isLoading && <p>Идет загрузка данных</p>}
                 {state.isError && <p>Ошибка!</p>}
                 {
-                    state.ingredientsData.length > 0 && (
+                    state.ingredientsData.length && (
                         <>
                             <BurgerIngredients ingredientsData={state.ingredientsData}/>
                             <BurgerConstructor ingredientsData={state.ingredientsData}/>
