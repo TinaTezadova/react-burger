@@ -1,0 +1,45 @@
+.block {
+    max-width: 600px;
+    width: 100%;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.list_items {
+    max-height: 60vh;  /* jhbgjhb */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+}
+
+.item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    column-gap: 13px;
+}
+
+.item:first-child {  /* fdgdg */
+    margin-top: 0;
+}
+
+.order_price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.order {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
