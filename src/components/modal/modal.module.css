@@ -1,0 +1,22 @@
+.wrapper {
+    width: 720px;
+    background-color: #1c1c21;
+    border: 1px solid rgba(76, 76, 255, 2);
+    border-radius: 40px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.closeButton {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

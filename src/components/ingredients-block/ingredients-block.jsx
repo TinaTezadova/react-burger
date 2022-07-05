@@ -1,11 +1,11 @@
 import React from "react";
-import { data } from "../../utils/data";
 import Ingredient from '../ingredient/ingredient'
 import styles from './ingredients-block.module.css';
 import PropTypes from 'prop-types';
+import { ingredientItem } from '../../utils/ingredient-item';
 
-const IngredientsBlock = ({ category }) => {
-    const ingredients = data.filter((item) => item.type === category.name);
+const IngredientsBlock = ({ category, ingredientsData }) => {
+    const ingredients = ingredientsData.filter((item) => item.type === category.name);
 
 
     return (
@@ -21,7 +21,8 @@ const IngredientsBlock = ({ category }) => {
 }
 
 IngredientsBlock.propTypes = {
-    category: PropTypes.object.isRequired
+    category: PropTypes.object.isRequired,
+    ingredientsData: PropTypes.arrayOf(PropTypes.shape(ingredientItem)).isRequired
 }
 
 export default IngredientsBlock;

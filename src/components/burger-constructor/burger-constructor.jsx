@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data } from '../../utils/data';
+import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.css';
+import OrderDetails from '../order-details/order-details';
+import { ingredientItem } from '../../utils/ingredient-item';
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ ingredientsData }) => {
+    const [orderDatailIsOpen, setOrderDatailIsOpen] = useState(false)
+
+    const handleOrderClick = () => {
+        setOrderDatailIsOpen(true)
+
+    }
+
+    const handleCloseModal = (event) => {
+        event.stopPropagation();
+        setOrderDatailIsOpen(false)
+    }
 
     return (
         <section className={`${styles.block} mt-20 ml-10`}>
@@ -15,7 +28,7 @@ const BurgerConstructor = () => {
 
                 <ul className={`custom-scroll ${styles.list_items}`}>
                     {
-                        data.map((item) => (item.type === 'sauce' || item.type === 'main') && (
+                        ingredientsData.map((item) => (item.type === 'sauce' || item.type === 'main') && (
                             <li key={item._id} className={`${styles.item} pr-5 mt-4`}>
                                 <DragIcon />
                                 <ConstructorElement price={item.price} text={item.name} thumbnail={item.image} />
@@ -39,7 +52,9 @@ const BurgerConstructor = () => {
                     <CurrencyIcon />
                 </div>
 
-                <Button size='large' type='primary'>Оформить заказ</Button>
+                <Button size='large' type='primary' onClick={handleOrderClick}>Оформить заказ</Button>
+                {orderDatailIsOpen && <OrderDetails handleCloseModal={handleCloseModal} />}
+
 
             </div>
 
@@ -47,4 +62,9 @@ const BurgerConstructor = () => {
 
     )
 }
+
+BurgerConstructor.propTypes = {
+    ingredientsData: PropTypes.arrayOf(PropTypes.shape(ingredientItem)).isRequired
+}
+
 export default BurgerConstructor;
