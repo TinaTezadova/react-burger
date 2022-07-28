@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsBlock from '../ingredients-block/ingredients-block';
 import { ingredienstCategories } from '../../utils/ingredienst-categories';
 import styles from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
-import { ingredientItem } from '../../utils/ingredient-item';
+import { MainContext } from '../../services/MainContext'
 
-const BurgerIngredients = ({ ingredientsData }) => {
+const BurgerIngredients = () => {
+    const ingredientsData = useContext(MainContext);
     const [activeTab, setActiveTab] = useState('bread');
 
     return (
@@ -27,10 +27,6 @@ const BurgerIngredients = ({ ingredientsData }) => {
             </ul>
         </section>
     )
-}
-
-BurgerIngredients.propTypes = {
-    ingredientsData: PropTypes.arrayOf(PropTypes.shape(ingredientItem)).isRequired
 }
 
 export default BurgerIngredients;

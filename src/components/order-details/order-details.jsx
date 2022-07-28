@@ -4,13 +4,13 @@ import styles from './order-details.module.css';
 import successIcon from '../../images/success-icon.svg';
 import PropTypes from 'prop-types';
 
-const OrderDetails = ({ handleCloseModal }) => {
+const OrderDetails = ({ handleCloseModal, orderNum }) => {
     
     return (
         <Modal handleCloseModal={handleCloseModal}>
             <section className={`${styles.wrapper} pb-30 pt-30`}>
 
-                <p className='text text_type_digits-large mb-8'>034563</p>
+                <p className='text text_type_digits-large mb-8'>{orderNum}</p>
 
                 <p className='text text_type_main-medium mb-15'>идентификатор заказа</p>
 
@@ -26,6 +26,7 @@ const OrderDetails = ({ handleCloseModal }) => {
 }
 
 OrderDetails.propTypes = {
-    handleCloseModal: PropTypes.func.isRequired
+    handleCloseModal: PropTypes.func.isRequired,
+    orderNum: PropTypes.number.isRequired
 }
 export default OrderDetails;
