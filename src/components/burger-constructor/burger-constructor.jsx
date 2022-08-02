@@ -78,7 +78,6 @@ const BurgerConstructor = ({ onDropHandler }) => {
 
     const sortIngredients = (id, atIndex) => {
         const { el, currentIndex } = findItem(id);
-        console.log(id, atIndex, el, currentIndex);
         dispatch(sortConstructorIngredients(ingredienList, currentIndex, atIndex, el))
     }
 
