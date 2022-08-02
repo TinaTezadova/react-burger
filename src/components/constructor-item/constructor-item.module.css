@@ -1,0 +1,15 @@
+.item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    column-gap: 13px;
+}
+
+.item:first-child { 
+    margin-top: 0;
+}
+
+.dragIconWrapper {
+    cursor: move;
+}

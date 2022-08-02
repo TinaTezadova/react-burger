@@ -1,11 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ingredient.module.css';
 import PropTypes from 'prop-types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
+import { SET_INGREDIENT_DETAIL, RESET_INGREDIENT_DETAIL } from '../../services/actions/constructor'
 
 const Ingredient = ({ ingredient }) => {
-    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const dispatch = useDispatch();
+
+    const [{isDrag}, dragRef] = useDrag({
+        type: "ingredient",
+        item: ingredient,
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
+
+    useEffect(() => {
+        if(modalIsOpen) {
+            dispatch({
+                type: SET_INGREDIENT_DETAIL,
+                payload: ingredient
+            })
+        }
+        else {
+            dispatch({
+                type: RESET_INGREDIENT_DETAIL,
+            })
+        }
+        
+    }, [dispatch, ingredient, modalIsOpen])
 
     const handleIngredientClick = () => {
         setModalIsOpen(true)
@@ -16,8 +43,8 @@ const Ingredient = ({ ingredient }) => {
         setModalIsOpen(false)
     }
 
-    return (
-        <li className={`mb-8 ${styles.ingredient}`} onClick={handleIngredientClick}>
+    return (!isDrag &&
+        <li className={`mb-8 ${styles.ingredient}`} onClick={handleIngredientClick} ref={dragRef}>
             <img src={ingredient.image} alt={ingredient.name} />
 
             <div className={`mt-2 ${styles.price}`}>
@@ -26,8 +53,8 @@ const Ingredient = ({ ingredient }) => {
             </div>
 
             <p className={`text text_type_main-default mt-2 ${styles.name}`}>{ingredient.name}</p>
-            <Counter count={1} size="default" />
-
+            {ingredient.count > 0 && <Counter count={ingredient.count} size="default" />}
+            
             {modalIsOpen && <IngredientDetails handleCloseModal={handleCloseModal} ingredient={ingredient}/>}
 
         </li>

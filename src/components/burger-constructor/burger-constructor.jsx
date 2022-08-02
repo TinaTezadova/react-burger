@@ -1,63 +1,47 @@
-import React, { useState, useContext, useMemo, useReducer, useEffect } from 'react';
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useState, useEffect } from 'react';
+import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import OrderDetails from '../order-details/order-details';
-import { MainContext } from '../../services/MainContext';
-import { BurgerContext } from '../../services/BurgerContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from "react-dnd";
+import {
+    GET_INGREDIENTS_FOR_CONSTRUCTOR,
+    getOrderDetail,
+    REMOVE_INGREDIENT_COUNT,
+    REMOVE_INGREDIENTS_FOR_CONSTRUCTOR,
+    REMOVE_ORDER_PRICE, sortConstructorIngredients
+} from '../../services/actions/constructor'
+import { ConstructorItem } from '../constructor-item/constructor-item'
+const BurgerConstructor = ({ onDropHandler }) => {
+    const dispatch = useDispatch();
+    const ingredienList = useSelector(state => state.constructor.constructorIngredients) || [];
+    const bun = useSelector(state => state.constructor.bun);
+    const orderPrice = useSelector(state => state.constructor.orderPrice);
 
-const BurgerConstructor = () => {
-    const ingredientsData = useContext(MainContext);
-    const {getOrderDetails, orderData} = useContext(BurgerContext);
+
     const [orderDatailIsOpen, setOrderDatailIsOpen] = useState(false);
-    const initialState = { orderPrice: 0 };
 
-    const reducer = (state, action) => {
-        switch (action.type) {
-          case "addIngridient":
-            return { orderPrice: state.orderPrice + action.price};
-          case "removeIngridient":
-            return { orderPrice: state.orderPrice - action.price };
-          default:
-            return initialState
-        }
-      }
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(itemId) {
+            onDropHandler(itemId);
+        },
+    });
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [, drop] = useDrop(() => ({ accept: 'constructor' }))
 
-    const bun = useMemo(() => {
-        const buns = ingredientsData.filter((item) => item.type === "bun");
-        return buns[0]
-
-    }, [ingredientsData])
-
-    const ingredienList = useMemo(() => {
-        if(ingredientsData.length) {
-            const filtredIngredients = ingredientsData.filter((item) => item.type !== 'bun');
-            filtredIngredients.forEach(element => {
-                dispatch({
-                    type: 'addIngridient',
-                    price: element.price
-                })
-            });
-    
-            dispatch({
-                type: 'addIngridient',
-                price: bun.price * 2
-            });
-    
-            return filtredIngredients;
-        }
-        else{
-            return []
-        }
-        
+    useEffect(() => {
+        dispatch({
+            type: GET_INGREDIENTS_FOR_CONSTRUCTOR
+        })
 
     }, []);
 
 
+
     const handleOrderClick = () => {
-        const ingredientsId = {ingredients: ingredienList.map((item) => item._id)}
-        getOrderDetails(ingredientsId)
+        const ingredientsId = { ingredients: ingredienList.map((item) => item._id) }
+        dispatch(getOrderDetail(ingredientsId))
         setOrderDatailIsOpen(true)
 
     }
@@ -67,42 +51,70 @@ const BurgerConstructor = () => {
         setOrderDatailIsOpen(false)
     }
 
+    const handleDeleteIngredient = (ingredientId, price) => {
+        dispatch({
+            type: REMOVE_INGREDIENT_COUNT,
+            payload: ingredientId
+        });
+
+        dispatch({
+            type: REMOVE_INGREDIENTS_FOR_CONSTRUCTOR,
+            payload: ingredientId
+        });
+
+        dispatch({
+            type: REMOVE_ORDER_PRICE,
+            payload: price
+        })
+    }
+
+    const findItem = (id) => {
+        const el = ingredienList.filter((item) => item._id === id)[0]
+        return {
+            el,
+            currentIndex: ingredienList.indexOf(el),
+        }
+    }
+
+    const sortIngredients = (id, atIndex) => {
+        const { el, currentIndex } = findItem(id);
+        console.log(id, atIndex, el, currentIndex);
+        dispatch(sortConstructorIngredients(ingredienList, currentIndex, atIndex, el))
+    }
+
+
     return (
-        <section className={`${styles.block} mt-20 ml-10`}>
+        <section className={`${styles.block} mt-20 ml-10`} ref={dropTarget}>
             <div className={styles.container}>
-                <ConstructorElement type='top' text={`${bun.name} (верх)`}
-                    price={bun.price}
+                <ConstructorElement type='top' text={`${bun?.name} (верх)`}
+                    price={bun?.price}
                     isLocked={true}
-                    thumbnail={bun.image} />
+                    thumbnail={bun?.image} />
 
-                <ul className={`custom-scroll ${styles.list_items}`}>
+                <ul className={`custom-scroll ${styles.list_items}`} ref={drop}>
                     {
-                        ingredienList.map((item) => (item.type === 'sauce' || item.type === 'main') && (
-                            <li key={item._id} className={`${styles.item} pr-5 mt-4`}>
-                                <DragIcon />
-                                <ConstructorElement price={item.price} text={item.name} thumbnail={item.image} />
-
-                            </li>
+                        ingredienList.map((item, index) => (item.type === 'sauce' || item.type === 'main') && (
+                            <ConstructorItem item={item} handleDeleteIngredient={handleDeleteIngredient} findItem={findItem} sortIngredients={sortIngredients} />
                         ))
                     }
 
                 </ul>
 
-                <ConstructorElement type='bottom' text={`${bun.name} (низ)`}
-                    price={bun.price}
+                <ConstructorElement type='bottom' text={`${bun?.name} (низ)`}
+                    price={bun?.price}
                     isLocked={true}
-                    thumbnail={bun.image} />
+                    thumbnail={bun?.image} />
 
             </div>
 
             <div className={`${styles.order} mr-8 mt-10`}>
                 <div className={`${styles.order_price} mr-10`}>
-                    <p className='text text_type_digits-medium mr-2'>{state.orderPrice}</p>
+                    <p className='text text_type_digits-medium mr-2'>{orderPrice}</p>
                     <CurrencyIcon />
                 </div>
 
                 <Button size='large' type='primary' onClick={handleOrderClick}>Оформить заказ</Button>
-                {orderDatailIsOpen && <OrderDetails handleCloseModal={handleCloseModal} orderNum={orderData.orderNum}/>}
+                {orderDatailIsOpen && <OrderDetails handleCloseModal={handleCloseModal} />}
 
 
             </div>
