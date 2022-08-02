@@ -40,7 +40,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
 
 
     const handleOrderClick = () => {
-        const ingredientsId = { ingredients: ingredienList.map((item) => item._id) }
+        const ingredientsId = { ingredients: [...ingredienList.map((item) => item._id), bun, bun] }
         dispatch(getOrderDetail(ingredientsId))
         setOrderDatailIsOpen(true)
 
