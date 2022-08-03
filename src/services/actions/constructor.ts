@@ -20,6 +20,7 @@ import {
   REMOVE_ORDER_PRICE,
   SORT_CONSTRUCTOR_ITEMS
 } from '../actions/consts';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getIngredientsRequest = () => {
   return {
@@ -76,7 +77,8 @@ export const getIngredientsForConstructor = () => {
 export const setIngredientsForConstructor = (payload: any) => {
   return {
     type: SET_INGREDIENTS_FOR_CONSTRUCTOR,
-    payload
+    payload,
+    uuid: uuidv4()
   }
 }
 

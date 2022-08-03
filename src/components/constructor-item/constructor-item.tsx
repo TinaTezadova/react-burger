@@ -37,7 +37,7 @@ const [, drop] = useDrop({
 
 
     return (
-        <li key={item._id} className={`${styles.item} pr-5 mt-4`} id={item._id}>
+        <li key={item.uuid} className={`${styles.item} pr-5 mt-4`} id={item._id}>
           <div ref={(node) => drag(drop(node))} className={styles.dragIconWrapper}>
           <DragIcon type={'secondary'} />
           </div>

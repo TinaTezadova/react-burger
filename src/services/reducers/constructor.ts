@@ -17,7 +17,6 @@ import {
   REMOVE_ORDER_PRICE,
   SORT_CONSTRUCTOR_ITEMS
 } from '../actions/consts';
-import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     ingredientsData: [],
@@ -42,7 +41,7 @@ const initialState = {
   };
 
 
-export const constructorReducer = (state = initialState, action: { type: string; payload: any }) => {
+export const constructorReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -133,14 +132,10 @@ export const constructorReducer = (state = initialState, action: { type: string;
     }
 
     case SET_INGREDIENTS_FOR_CONSTRUCTOR: {
+      const currentItem = state.ingredientsData.filter((item: any) => item._id === action.payload).map((item: any) => ({...item, uuid: action.uuid}));
       return {
         ...state,
-        constructorIngredients: [...state.constructorIngredients, ...state.ingredientsData.filter((item: any) => item._id === action.payload)].map((item: any) => {
-          return {
-            ...item,
-            uuid: uuidv4()
-          }
-        }),
+        constructorIngredients: [...state.constructorIngredients, ...currentItem],
       };
     }
 
