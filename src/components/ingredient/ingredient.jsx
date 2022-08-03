@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
-import { SET_INGREDIENT_DETAIL, RESET_INGREDIENT_DETAIL } from '../../services/actions/constructor'
+import { setIngredientDetail, resetIngredientDetail } from '../../services/actions/constructor'
 
 const Ingredient = ({ ingredient }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -21,15 +21,10 @@ const Ingredient = ({ ingredient }) => {
 
     useEffect(() => {
         if(modalIsOpen) {
-            dispatch({
-                type: SET_INGREDIENT_DETAIL,
-                payload: ingredient
-            })
+            dispatch(setIngredientDetail(ingredient))
         }
         else {
-            dispatch({
-                type: RESET_INGREDIENT_DETAIL,
-            })
+            dispatch(resetIngredientDetail())
         }
         
     }, [dispatch, ingredient, modalIsOpen])

@@ -12,20 +12,20 @@ const OrderDetails = ({ handleCloseModal }) => {
 
     return (
         <Modal handleCloseModal={handleCloseModal}>
-            {isLoading && <p>Идет загрузка данных</p>}
-            {isError && <p>Ошибка!</p>}
-            {
-                (!isLoading && !isError) && (
-                    <section className={`${styles.wrapper} pb-30 pt-30`}>
+            <section className={`${styles.wrapper} pb-30 pt-30`}>
+                {isLoading && <p className={'mt-30 mb-30'}>Идет загрузка данных</p>}
+                {isError && <p className={'mt-30 mb-30'}>Ошибка!</p>}
+                {(!isLoading && !isError) && (
+                    <>
                         <p className='text text_type_digits-large mb-8'>{orderNum}</p>
                         <p className='text text_type_main-medium mb-15'>идентификатор заказа</p>
                         <img className={`${styles.img} mb-15`} src={successIcon} alt='Заказ успешно принят' />
                         <p className='text text_type_main-default mb-2'>Ваш заказ начали готовить</p>
                         <p className='text text_type_main-default text_color_inactive'>Дождитесь готовности на орбитальной станции</p>
-                    </section>
+                    </>
+                )}
 
-                )
-            }
+            </section>
 
         </Modal>
     )

@@ -5,11 +5,11 @@ import OrderDetails from '../order-details/order-details';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 import {
-    GET_INGREDIENTS_FOR_CONSTRUCTOR,
+    getIngredientsForConstructor,
     getOrderDetail,
-    REMOVE_INGREDIENT_COUNT,
-    REMOVE_INGREDIENTS_FOR_CONSTRUCTOR,
-    REMOVE_ORDER_PRICE, sortConstructorIngredients
+    removeIngredientCount,
+    removeIngredientsForConstructor,
+    removeOrderPrice, sortConstructorIngredients
 } from '../../services/actions/constructor'
 import { ConstructorItem } from '../constructor-item/constructor-item'
 const BurgerConstructor = ({ onDropHandler }) => {
@@ -31,9 +31,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
     const [, drop] = useDrop(() => ({ accept: 'constructor' }))
 
     useEffect(() => {
-        dispatch({
-            type: GET_INGREDIENTS_FOR_CONSTRUCTOR
-        })
+        dispatch(getIngredientsForConstructor())
 
     }, []);
 
@@ -52,20 +50,11 @@ const BurgerConstructor = ({ onDropHandler }) => {
     }
 
     const handleDeleteIngredient = (ingredientId, price) => {
-        dispatch({
-            type: REMOVE_INGREDIENT_COUNT,
-            payload: ingredientId
-        });
+        dispatch(removeIngredientCount(ingredientId));
 
-        dispatch({
-            type: REMOVE_INGREDIENTS_FOR_CONSTRUCTOR,
-            payload: ingredientId
-        });
+        dispatch(removeIngredientsForConstructor(ingredientId));
 
-        dispatch({
-            type: REMOVE_ORDER_PRICE,
-            payload: price
-        })
+        dispatch(removeOrderPrice(price))
     }
 
     const findItem = (id) => {
@@ -85,24 +74,36 @@ const BurgerConstructor = ({ onDropHandler }) => {
     return (
         <section className={`${styles.block} mt-20 ml-10`} ref={dropTarget}>
             <div className={styles.container}>
-                <ConstructorElement type='top' text={`${bun?.name} (верх)`}
-                    price={bun?.price}
-                    isLocked={true}
-                    thumbnail={bun?.image} />
+                {bun.name && (
+                    <ConstructorElement type='top' text={`${bun?.name} (верх)`}
+                        price={bun?.price}
+                        isLocked={true}
+                        thumbnail={bun?.image} />
+                )}
 
-                <ul className={`custom-scroll ${styles.list_items}`} ref={drop}>
-                    {
-                        ingredienList.map((item, index) => (item.type === 'sauce' || item.type === 'main') && (
-                            <ConstructorItem item={item} handleDeleteIngredient={handleDeleteIngredient} findItem={findItem} sortIngredients={sortIngredients} />
-                        ))
-                    }
+                {ingredienList.length > 0 && (
+                    <ul className={`custom-scroll ${styles.list_items}`} ref={drop}>
+                        {
+                            ingredienList.map((item, index) => (item.type === 'sauce' || item.type === 'main') && (
+                                <ConstructorItem item={item} handleDeleteIngredient={handleDeleteIngredient} findItem={findItem} sortIngredients={sortIngredients} key={item.uuid} />
+                            ))
+                        }
 
-                </ul>
+                    </ul>
 
-                <ConstructorElement type='bottom' text={`${bun?.name} (низ)`}
-                    price={bun?.price}
-                    isLocked={true}
-                    thumbnail={bun?.image} />
+                )}
+
+                {bun.name && (
+                    <ConstructorElement type='bottom' text={`${bun?.name} (низ)`}
+                        price={bun?.price}
+                        isLocked={true}
+                        thumbnail={bun?.image} />
+                )}
+                {(!ingredienList.length && !bun.name) && (
+                    <p className={`text text_type_main-default mt-2`}>Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>
+                )
+                }
+
 
             </div>
 
@@ -112,7 +113,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
                     <CurrencyIcon />
                 </div>
 
-                <Button size='large' type='primary' onClick={handleOrderClick}>Оформить заказ</Button>
+                <Button size='large' type='primary' onClick={handleOrderClick} disabled={!bun.name}>Оформить заказ</Button>
                 {orderDatailIsOpen && <OrderDetails handleCloseModal={handleCloseModal} />}
 
 

@@ -16,7 +16,8 @@ import {
   ADD_ORDER_PRICE,
   REMOVE_ORDER_PRICE,
   SORT_CONSTRUCTOR_ITEMS
-} from '../actions/constructor'
+} from '../actions/consts';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     ingredientsData: [],
@@ -51,17 +52,14 @@ export const constructorReducer = (state = initialState, action: { type: string;
     }
 
     case GET_INGREDIENTS_SUCCESS: {
-      const buns = action.payload.filter((item: any) => item.type === "bun");
+      /* const buns = action.payload.filter((item: any) => item.type === "bun"); */
       return {
         ...state,
         ingredientsRequest: false,
         ingredientsRequestFailed: false,
-        bun: buns[0],
-        orderPrice: buns[0].price * 2,
+        bun: {},
+        orderPrice: 0,
         ingredientsData: action.payload.map((item: any) => {
-          if(item._id === buns[0]._id) {
-            return {...item, count: 2}
-          }
           return {...item, count: 0}
         }),
       };
@@ -113,7 +111,16 @@ export const constructorReducer = (state = initialState, action: { type: string;
           name: action.payload.name,
           success: action.payload.success,
           number: action.payload.order.number
-        }
+        },
+        orderPrice: 0,
+        constructorIngredients: [],
+        bun: [],
+        ingredientsData: state.ingredientsData.map((item: any) => {
+          return {
+            ...item,
+            count: 0
+          }
+        }),
       };
     }
 
@@ -128,7 +135,12 @@ export const constructorReducer = (state = initialState, action: { type: string;
     case SET_INGREDIENTS_FOR_CONSTRUCTOR: {
       return {
         ...state,
-        constructorIngredients: [...state.constructorIngredients, ...state.ingredientsData.filter((item: any) => item._id === action.payload)],
+        constructorIngredients: [...state.constructorIngredients, ...state.ingredientsData.filter((item: any) => item._id === action.payload)].map((item: any) => {
+          return {
+            ...item,
+            uuid: uuidv4()
+          }
+        }),
       };
     }
 
@@ -185,10 +197,11 @@ export const constructorReducer = (state = initialState, action: { type: string;
 
     case CHANGE_BUN: {
       const newBun: any = state.ingredientsData.filter((item: any) => item._id === action.payload)[0]
+      const newBunPrice = newBun.price * 2
       return {
         ...state,
         bun: newBun,
-        orderPrice: (state.orderPrice - state.bun.price * 2) + (newBun.price * 2),
+        orderPrice: state.bun.price ? (state.orderPrice - state.bun.price * 2) + newBunPrice : newBunPrice,
         ingredientsData: state.ingredientsData.map((item: any) => {
           if(item._id === state.bun._id) {
             return {

@@ -5,7 +5,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredientsData, SET_INGREDIENTS_FOR_CONSTRUCTOR, ADD_INGREDIENT_COUNT, CHANGE_BUN, ADD_ORDER_PRICE } from '../../services/actions/constructor'
+import { getIngredientsData, setIngredientsForConstructor, addIngredientCount, changeBun, addOrderPrice } from '../../services/actions/constructor'
 import styles from './app.module.css'
 
 const App = () => {
@@ -20,20 +20,14 @@ const App = () => {
 
     const handleDrop = (item) => {
         const isBun = item.type === 'bun';
-        dispatch({
-            type: ADD_INGREDIENT_COUNT,
-            payload: item._id
-        })
-
-        dispatch({
-            type: isBun ? CHANGE_BUN : SET_INGREDIENTS_FOR_CONSTRUCTOR,
-            payload: item._id
-        });
-
-        dispatch({
-            type: !isBun && ADD_ORDER_PRICE,
-            payload: item.price
-        })
+        dispatch(addIngredientCount(item._id))
+        if(isBun) {
+            dispatch(changeBun(item._id))
+        }
+        else {
+            dispatch(setIngredientsForConstructor(item._id))
+            dispatch(addOrderPrice(item.price))
+        }
 
         
     }
