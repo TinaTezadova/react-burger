@@ -1,80 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { getIngredients, getOrder } from '../../utils/burger-api';
-import { MainContext } from '../../services/MainContext';
-import { BurgerContext } from '../../services/BurgerContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredientsData, setIngredientsForConstructor, addIngredientCount, changeBun, addOrderPrice } from '../../services/actions/constructor'
 import styles from './app.module.css'
 
 const App = () => {
-
-    const [state, setState] = useState({
-        ingredientsData: [],
-        isLoading: false,
-        isError: false
-    });
-
-    const [orderData, setOrderData] = useState({
-        name: '',
-        orderNum: 0,
-        success: false,
-        isLoading: false,
-        isError: false 
-    })
-
-    const getIngredientsData = async () => {
-        setState({ ...state, isLoading: true });
-        try {
-            const response = await getIngredients();
-            setState({ ...state, isLoading: false, ingredientsData: response.data });
-        }
-        catch {
-            setState({ ...state, isLoading: false, isError: true });
-        }
-
-    };
-
-    const getOrderDetails = async (ingredientsId) => {
-        setOrderData({...orderData, isLoading: true})
-
-        try {
-            const response = await getOrder(ingredientsId);
-            setOrderData({
-                ...orderData,
-                orderNum: response.order.number,
-                success: response.success,
-                name: response.name,
-                isLoading: false,
-                isError: false
-            })
-
-        }
-        catch(e) {
-            setOrderData({...orderData, isLoading: false, isError: true})
-            console.log(e)
-        }
-
-    }
+    const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.constructor.ingredientsRequest);
+    const isError = useSelector(state => state.constructor.ingredientsRequestFailed);
+    const ingredientsData = useSelector(state => state.constructor.ingredientsData);
 
     useEffect(() => {
-        getIngredientsData()
+        dispatch(getIngredientsData())
     }, []);
 
+    const handleDrop = (item) => {
+        const isBun = item.type === 'bun';
+        dispatch(addIngredientCount(item._id))
+        if(isBun) {
+            dispatch(changeBun(item._id))
+        }
+        else {
+            dispatch(setIngredientsForConstructor(item._id))
+            dispatch(addOrderPrice(item.price))
+        }
+
+        
+    }
     return (
         <div className={`${styles.pageContainer} pb-10`}>
             <AppHeader />
             <main className={styles.mainContent}>
-                {(state.isLoading || orderData.isLoading) && <p>Идет загрузка данных</p>}
-                {(state.isError || orderData.isError) && <p>Ошибка!</p>}
+                {isLoading  && <p>Идет загрузка данных</p>}
+                {isError  && <p>Ошибка!</p>}
                 {
-                    state.ingredientsData.length && (
-                        <MainContext.Provider value={state.ingredientsData}>
+                    ingredientsData && (
+                        <DndProvider backend={HTML5Backend}>
                             <BurgerIngredients />
-                            <BurgerContext.Provider value={{getOrderDetails, orderData}}>
-                            <BurgerConstructor />
-                            </BurgerContext.Provider>
-                        </MainContext.Provider>
+                            <BurgerConstructor onDropHandler={handleDrop}/>
+                        </DndProvider>
                     )
                 }
 

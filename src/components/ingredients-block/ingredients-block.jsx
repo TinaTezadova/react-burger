@@ -7,9 +7,8 @@ import { ingredientItem } from '../../utils/ingredient-item';
 const IngredientsBlock = ({ category, ingredientsData, elRef }) => {
     const ingredients = ingredientsData.filter((item) => item.type === category.name);
 
-
     return (
-        <li ref={elRef}>
+        <li ref={elRef} id={category.name}>
             <p className='text text_type_main-medium mt-10 mb-6'>{category.description}</p>
 
             <ul className={styles.list_items}>

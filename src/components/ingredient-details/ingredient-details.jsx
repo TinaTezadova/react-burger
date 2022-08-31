@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from '../modal/modal';
 import NutritionValue from '../nutrition-value/nutrition-value';
 import styles from './ingredient-details.module.css';
