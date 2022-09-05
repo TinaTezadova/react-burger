@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logo, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { recoveryPassword } from '../services/actions/auth';
 import useForm from '../hooks/use-form';
 import styles from './login.module.css';
+import { getCookie } from '../utils/cookie';
 
 
 export const ForgotPasswordPage = () => {
@@ -18,7 +19,7 @@ export const ForgotPasswordPage = () => {
         dispatch(recoveryPassword(values))
     }
 
-    if (user) {
+    if (user || getCookie('accessToken')) {
         return (
             <Redirect to='/' />
         );

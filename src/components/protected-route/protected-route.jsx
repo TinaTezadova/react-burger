@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { getCookie } from '../../utils/cookie';
 
 export const ProtectedRoute = ({ children, ...otherProps }) => {
-  const user = useSelector(store => store.auth.user);
+  const tokenExpired = getCookie('accessToken') ? false : true;
+  
   return (
     <Route
       render={({ location }) =>
-        user ? (
+      !tokenExpired ? (
           children
         ) : (
           <Redirect

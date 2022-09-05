@@ -12,7 +12,8 @@ import {
     removeIngredientsForConstructor,
     removeOrderPrice, sortConstructorIngredients
 } from '../../services/actions/constructor'
-import { ConstructorItem } from '../constructor-item/constructor-item'
+import { ConstructorItem } from '../constructor-item/constructor-item';
+import { getCookie } from '../../utils/cookie'
 const BurgerConstructor = ({ onDropHandler }) => {
     const dispatch = useDispatch();
     const history = useHistory()
@@ -38,11 +39,9 @@ const BurgerConstructor = ({ onDropHandler }) => {
 
     }, []);
 
-
-
     const handleOrderClick = () => {
         const ingredientsId = { ingredients: [...ingredienList.map((item) => item._id), bun, bun] }
-        if (!user) {
+        if (!getCookie('accessToken') ) {
             history.replace('/login');
         }
         else {

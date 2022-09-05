@@ -19,7 +19,7 @@ import {
   ADD_ORDER_PRICE,
   REMOVE_ORDER_PRICE,
   SORT_CONSTRUCTOR_ITEMS
-} from '../actions/consts';
+} from './consts';
 import { v4 as uuidv4 } from 'uuid';
 
 export const getIngredientsRequest = () => {
@@ -28,7 +28,7 @@ export const getIngredientsRequest = () => {
   }
 }
 
-export const getIngredientsSuccess = (payload: any) => {
+export const getIngredientsSuccess = (payload) => {
   return {
     type: GET_INGREDIENTS_SUCCESS,
     payload
@@ -48,7 +48,7 @@ export const getOrderRequest = () => {
   }
 }
 
-export const getOrderSuccess = (payload: any) => {
+export const getOrderSuccess = (payload) => {
   return {
     type: GET_ORDER_SUCCESS,
     payload
@@ -61,7 +61,7 @@ export const getOrderFailed = () => {
   }
 }
 
-export const sortConstructorItems = (payload: any) => {
+export const sortConstructorItems = (payload) => {
   return {
     type: SORT_CONSTRUCTOR_ITEMS,
     payload
@@ -74,7 +74,7 @@ export const getIngredientsForConstructor = () => {
   }
 }
 
-export const setIngredientsForConstructor = (payload: any) => {
+export const setIngredientsForConstructor = (payload) => {
   return {
     type: SET_INGREDIENTS_FOR_CONSTRUCTOR,
     payload,
@@ -82,21 +82,21 @@ export const setIngredientsForConstructor = (payload: any) => {
   }
 }
 
-export const changeBun = (payload: any) => {
+export const changeBun = (payload) => {
   return {
     type: CHANGE_BUN,
     payload
   }
 }
 
-export const removeIngredientsForConstructor = (payload: any) => {
+export const removeIngredientsForConstructor = (payload) => {
   return {
     type: REMOVE_INGREDIENTS_FOR_CONSTRUCTOR,
     payload
   }
 }
 
-export const setIngredientDetail = (payload: any) => {
+export const setIngredientDetail = (payload) => {
   return {
     type: SET_INGREDIENT_DETAIL,
     payload
@@ -109,35 +109,35 @@ export const resetIngredientDetail = () => {
   }
 }
 
-export const addIngredientCount = (payload: any) => {
+export const addIngredientCount = (payload) => {
   return {
     type: ADD_INGREDIENT_COUNT,
     payload
   }
 }
 
-export const removeIngredientCount = (payload: any) => {
+export const removeIngredientCount = (payload) => {
   return {
     type: REMOVE_INGREDIENT_COUNT,
     payload
   }
 }
 
-export const addOrderPrice = (payload: any) => {
+export const addOrderPrice = (payload) => {
   return {
     type: ADD_ORDER_PRICE,
     payload
   }
 }
 
-export const removeOrderPrice = (payload: any) => {
+export const removeOrderPrice = (payload) => {
   return {
     type: REMOVE_ORDER_PRICE,
     payload
   }
 }
 
-export const getIngredientsData = () => async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const getIngredientsData = () => async (dispatch) => {
   try {
     dispatch(getIngredientsRequest());
     const res = await getIngredients();
@@ -149,7 +149,7 @@ export const getIngredientsData = () => async (dispatch: (arg0: { type: string; 
   } 
 };
 
-export const getOrderDetail = (ingredientsId: string[]) => async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const getOrderDetail = (ingredientsId) => async (dispatch) => {
   try {
     dispatch(getOrderRequest());
     const res = await getOrder(ingredientsId);
@@ -161,8 +161,8 @@ export const getOrderDetail = (ingredientsId: string[]) => async (dispatch: (arg
   } 
 };
 
-  export const sortConstructorIngredients = (constructorIngredients: any, currentIndex: number, atIndex: number, el: any) => {
-    return (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+  export const sortConstructorIngredients = (constructorIngredients, currentIndex, atIndex, el) => {
+    return (dispatch) => {
       const data = update(constructorIngredients, {
         $splice: [
           [currentIndex, 1],

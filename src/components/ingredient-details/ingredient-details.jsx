@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NutritionValue from '../nutrition-value/nutrition-value';
@@ -7,7 +7,9 @@ import styles from './ingredient-details.module.css';
 const IngredientDetails = () => {
     const ingredientsData = useSelector(state => state.constructor.ingredientsData) || [];
     const { id } = useParams();
-    const ingredient = ingredientsData.filter((item) => item._id === id)[0]
+    const ingredient = useMemo(() => {
+       return ingredientsData.filter((item) => item._id === id)[0]
+    },[id, ingredientsData])
 
     return (
         <>

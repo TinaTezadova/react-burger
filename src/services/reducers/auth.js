@@ -44,12 +44,12 @@ const initialState = {
     name: ''
   },
   updateUserRequest: false,
-  updateUserFailed: false
+  updateUserFailed: false,
 
 };
 
 
-export const authReducer = (state = initialState, action: any) => {
+export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECOVERY_PASSWORD_REQUEST: {
       return {

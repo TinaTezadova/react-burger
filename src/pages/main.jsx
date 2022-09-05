@@ -10,7 +10,7 @@ export const MainPage = () => {
     const dispatch = useDispatch();
     const ingredientsData = useSelector(state => state.constructor.ingredientsData);
 
-    const handleDrop = (item: { type: string; _id: any; price: any; }) => {
+    const handleDrop = (item) => {
         const isBun = item.type === 'bun';
         dispatch(addIngredientCount(item._id))
         if (isBun) {

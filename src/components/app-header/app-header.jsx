@@ -17,14 +17,16 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className={styles.item}>
-                        <NavLink to='/ingredients/60d3b41abdacab0026a733c7' className={styles.link} activeClassName={styles.link_active}>
+                        <NavLink to='/lenta' className={styles.link} activeClassName={styles.link_active}>
                             <ListIcon type={pathname === '/lenta' ? 'primary' : 'secondary'} />
                             <p className='text text_type_main-default text_color_inactive pl-2'>Лента заказов</p>
                         </NavLink>
                     </li>
 
                     <li className={styles.item}>
-                        <Logo />
+                        <NavLink to='/' className={styles.link}>
+                            <Logo />
+                        </NavLink>
 
                     </li>
                     <li className={`${styles.item} pr-5`}>

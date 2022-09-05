@@ -232,6 +232,8 @@ export const logout = () => async (dispatch) => {
     try {
         dispatch(logoutRequest());
         const data = await logoutReq(getCookie('refreshToken'));
+        deleteCookie('accessToken');
+        deleteCookie('refreshToken');
         dispatch(logoutSuccess());
 
 

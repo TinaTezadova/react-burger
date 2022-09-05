@@ -5,6 +5,7 @@ import { Logo, Input, PasswordInput, Button } from '@ya.praktikum/react-develope
 import { registration } from '../services/actions/auth';
 import useForm from '../hooks/use-form';
 import styles from './login.module.css'
+import { getCookie } from '../utils/cookie';
 
 export const RegisterPage = () => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const RegisterPage = () => {
         dispatch(registration(values))
     }
 
-    if (user) {
+    if (user || getCookie('accessToken')) {
         return (
             <Redirect to='/' />
         );

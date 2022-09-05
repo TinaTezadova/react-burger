@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, Switch, Route, useHistory } from 'react-router-dom';
+import { NavLink, Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { logout, getUser, updateUser } from '../services/actions/auth';
 import useForm from '../hooks/use-form';
 import styles from './profile.module.css'
@@ -9,6 +9,7 @@ import styles from './profile.module.css'
 export const ProfilePage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const isLoading = useSelector((state) => state.auth.getUserRequest);
     const isError = useSelector((state) => state.auth.getUserFailed);
     const user = useSelector((state) => state.auth.userData);
@@ -39,6 +40,16 @@ export const ProfilePage = () => {
         dispatch(updateUser(values));
     };
 
+    const captionText = useMemo(() => {
+        if(location.pathname === '/profile') {
+            return 'В этом разделе вы можете изменить свои персональные данные'
+        }
+        else {
+            return 'В этом разделе вы можете посмотреть историю заказов'
+        }
+
+    },[location])
+
 
     return (
         <>
@@ -66,9 +77,7 @@ export const ProfilePage = () => {
                                 </ul>
                             </nav>
                             <div className={styles.caption}>
-                                <p className="text text_type_main-default text_color_inactive">
-                                    В этом разделе вы можете изменить свои персональные данные
-                                </p>
+                                <p className="text text_type_main-default text_color_inactive">{captionText}</p>
 
                             </div>
                         </div>
