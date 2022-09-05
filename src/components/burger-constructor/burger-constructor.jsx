@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ConstructorElement, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import OrderDetails from '../order-details/order-details';
@@ -14,7 +15,9 @@ import {
 import { ConstructorItem } from '../constructor-item/constructor-item'
 const BurgerConstructor = ({ onDropHandler }) => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const ingredienList = useSelector(state => state.constructor.constructorIngredients) || [];
+    const user = useSelector(store => store.auth.user);
     const bun = useSelector(state => state.constructor.bun);
     const orderPrice = useSelector(state => state.constructor.orderPrice);
 
@@ -39,8 +42,13 @@ const BurgerConstructor = ({ onDropHandler }) => {
 
     const handleOrderClick = () => {
         const ingredientsId = { ingredients: [...ingredienList.map((item) => item._id), bun, bun] }
-        dispatch(getOrderDetail(ingredientsId))
-        setOrderDatailIsOpen(true)
+        if (!user) {
+            history.replace('/login');
+        }
+        else {
+            dispatch(getOrderDetail(ingredientsId))
+            setOrderDatailIsOpen(true)
+        }
 
     }
 

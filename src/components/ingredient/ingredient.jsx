@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useHistory } from 'react-router-dom'
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './ingredient.module.css';
 import PropTypes from 'prop-types';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { setIngredientDetail, resetIngredientDetail } from '../../services/actions/constructor'
 
 const Ingredient = ({ ingredient }) => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    const [{isDrag}, dragRef] = useDrag({
+    const [{ isDrag }, dragRef] = useDrag({
         type: "ingredient",
         item: ingredient,
         collect: monitor => ({
@@ -20,22 +20,20 @@ const Ingredient = ({ ingredient }) => {
     });
 
     useEffect(() => {
-        if(modalIsOpen) {
-            dispatch(setIngredientDetail(ingredient))
-        }
-        else {
+
+        dispatch(setIngredientDetail(ingredient))
+
+        return () => {
             dispatch(resetIngredientDetail())
         }
-        
-    }, [dispatch, ingredient, modalIsOpen])
+
+    }, [dispatch, ingredient])
 
     const handleIngredientClick = () => {
-        setModalIsOpen(true)
-    }
-
-    const handleCloseModal = (event) => {
-        event.stopPropagation();
-        setModalIsOpen(false)
+        history.push({
+            pathname: `/ingredients/${ingredient._id}`,
+            state: { background: history.location },
+        });
     }
 
     return (!isDrag &&
@@ -49,8 +47,6 @@ const Ingredient = ({ ingredient }) => {
 
             <p className={`text text_type_main-default mt-2 ${styles.name}`}>{ingredient.name}</p>
             {ingredient.count > 0 && <Counter count={ingredient.count} size="default" />}
-            
-            {modalIsOpen && <IngredientDetails handleCloseModal={handleCloseModal} ingredient={ingredient}/>}
 
         </li>
     )

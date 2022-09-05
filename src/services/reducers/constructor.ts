@@ -19,26 +19,26 @@ import {
 } from '../actions/consts';
 
 const initialState = {
-    ingredientsData: [],
-    constructorIngredients: [],
-    currentIngredient: {},
-    order: {
-      number: 0,
-      success: false,
-      name: ''
-    },
-    ingredientsRequest: false,
-    ingredientsRequestFailed: false,
-    orderRequest: false,
-    orderRequestFailed: false,
-    orderPrice: 0,
-    bun: {
-      name: '',
-      price: 0,
-      image: '',
-      _id: ''
-    }
-  };
+  ingredientsData: [],
+  constructorIngredients: [],
+  currentIngredient: {},
+  order: {
+    number: 0,
+    success: false,
+    name: ''
+  },
+  ingredientsRequest: false,
+  ingredientsRequestFailed: false,
+  orderRequest: false,
+  orderRequestFailed: false,
+  orderPrice: 0,
+  bun: {
+    name: '',
+    price: 0,
+    image: '',
+    _id: ''
+  }
+};
 
 
 export const constructorReducer = (state = initialState, action: any) => {
@@ -59,7 +59,7 @@ export const constructorReducer = (state = initialState, action: any) => {
         bun: {},
         orderPrice: 0,
         ingredientsData: action.payload.map((item: any) => {
-          return {...item, count: 0}
+          return { ...item, count: 0 }
         }),
       };
     }
@@ -73,10 +73,10 @@ export const constructorReducer = (state = initialState, action: any) => {
     }
 
     case GET_INGREDIENTS_FOR_CONSTRUCTOR: {
-      
+
       return {
         ...state,
-        constructorIngredients: [] /* state.ingredientsData.filter((item: {type: string;}) => item.type !== 'bun') */,
+        constructorIngredients: state.constructorIngredients || [],
       };
     }
 
@@ -132,7 +132,7 @@ export const constructorReducer = (state = initialState, action: any) => {
     }
 
     case SET_INGREDIENTS_FOR_CONSTRUCTOR: {
-      const currentItem = state.ingredientsData.filter((item: any) => item._id === action.payload).map((item: any) => ({...item, uuid: action.uuid}));
+      const currentItem = state.ingredientsData.filter((item: any) => item._id === action.payload).map((item: any) => ({ ...item, uuid: action.uuid }));
       return {
         ...state,
         constructorIngredients: [...state.constructorIngredients, ...currentItem],
@@ -142,15 +142,15 @@ export const constructorReducer = (state = initialState, action: any) => {
     case REMOVE_INGREDIENTS_FOR_CONSTRUCTOR: {
       const currentIngredient = state.constructorIngredients.filter((item: any) => item._id === action.payload)
       const ingredientsWithoutCurrent = state.constructorIngredients.filter((item: any) => item._id !== action.payload)
-      if(currentIngredient.length === 1) {
+      if (currentIngredient.length === 1) {
         return {
           ...state,
-          constructorIngredients:ingredientsWithoutCurrent
+          constructorIngredients: ingredientsWithoutCurrent
         }
       }
       return {
         ...state,
-        constructorIngredients: [...ingredientsWithoutCurrent, ...currentIngredient.splice(currentIngredient.length -1, 1)],
+        constructorIngredients: [...ingredientsWithoutCurrent, ...currentIngredient.splice(currentIngredient.length - 1, 1)],
       };
     }
 
@@ -158,10 +158,10 @@ export const constructorReducer = (state = initialState, action: any) => {
       return {
         ...state,
         ingredientsData: state.ingredientsData.map((item: any) => {
-          if(item._id === action.payload) {
+          if (item._id === action.payload) {
             return {
               ...item,
-              count: item.type === 'bun' ? item.count + 2 :item.count + 1
+              count: item.type === 'bun' ? item.count + 2 : item.count + 1
             }
 
           }
@@ -176,7 +176,7 @@ export const constructorReducer = (state = initialState, action: any) => {
       return {
         ...state,
         ingredientsData: state.ingredientsData.map((item: any) => {
-          if(item._id === action.payload && item.count !== 0) {
+          if (item._id === action.payload && item.count !== 0) {
             return {
               ...item,
               count: item.count - 1
@@ -198,7 +198,7 @@ export const constructorReducer = (state = initialState, action: any) => {
         bun: newBun,
         orderPrice: state.bun.price ? (state.orderPrice - state.bun.price * 2) + newBunPrice : newBunPrice,
         ingredientsData: state.ingredientsData.map((item: any) => {
-          if(item._id === state.bun._id) {
+          if (item._id === state.bun._id) {
             return {
               ...item,
               count: 0
