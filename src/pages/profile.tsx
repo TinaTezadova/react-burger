@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Switch, Route, useHistory } from 'react-router-dom';
 import { logout, getUser, updateUser } from '../services/actions/auth';
+import useForm from '../hooks/use-form';
 import styles from './profile.module.css'
 
 export const ProfilePage = () => {
@@ -11,12 +12,12 @@ export const ProfilePage = () => {
     const isLoading = useSelector((state) => state.auth.getUserRequest);
     const isError = useSelector((state) => state.auth.getUserFailed);
     const user = useSelector((state) => state.auth.userData);
-    const [formValues, setFormValues] = useState({ name: '', email: '', password: '' });
+    const { values, handleChange, setValues } = useForm({ name: '', email: '', password: '' });
 
     const handleLogOutClick = async () => {
         await dispatch(logout());
         history.replace({ pathname: '/login' });
-    }
+    };
 
     useEffect(() => {
         dispatch(getUser());
@@ -24,23 +25,19 @@ export const ProfilePage = () => {
 
     useEffect(() => {
         if (user.name) {
-            setFormValues({ name: user.name, email: user.email, password: '' })
+            setValues({ name: user.name, email: user.email, password: '' })
         }
-    }, [user])
+    }, [setValues, user]);
 
-    const handleInputChange = ({ target }) => {
-        setFormValues({ ...formValues, [target.name]: target.value })
-    }
 
     const handleCancleClick = () => {
-        setFormValues({ ...user, password: '' })
-    }
+        setValues({ ...user, password: '' })
+    };
 
     const onProfileInfoSave = (event) => {
         event.preventDefault();
-        dispatch(updateUser(formValues));
-    }
-
+        dispatch(updateUser(values));
+    };
 
 
     return (
@@ -80,15 +77,15 @@ export const ProfilePage = () => {
                             <Route path='/profile' exact={true}>
                                 <form className={styles.form} onSubmit={onProfileInfoSave}>
                                     <div className={`${styles.inputWrapper} mb-6`}>
-                                        <Input type='text' placeholder='Имя' value={formValues.name} onChange={handleInputChange} name='name' icon='EditIcon' />
+                                        <Input type='text' placeholder='Имя' value={values.name} onChange={handleChange} name='name' icon='EditIcon' />
                                     </div>
 
                                     <div className={`${styles.inputWrapper} mb-6`}>
-                                        <Input type='email' placeholder='Логин' value={formValues.email} onChange={handleInputChange} name='email' icon='EditIcon' />
+                                        <Input type='email' placeholder='Логин' value={values.email} onChange={handleChange} name='email' icon='EditIcon' />
                                     </div>
 
                                     <div className={`${styles.inputWrapper} mb-6`}>
-                                        <Input type='password' placeholder='Пароль' value={formValues.password} onChange={handleInputChange} name='password' icon='EditIcon' />
+                                        <Input type='password' placeholder='Пароль' value={values.password} onChange={handleChange} name='password' icon='EditIcon' />
                                     </div>
 
                                     <div className={styles.buttons_wrapper}>
