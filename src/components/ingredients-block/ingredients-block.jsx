@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Ingredient from '../ingredient/ingredient'
 import styles from './ingredients-block.module.css';
 import PropTypes from 'prop-types';
 import { ingredientItem } from '../../utils/ingredient-item';
 
 const IngredientsBlock = ({ category, ingredientsData, elRef }) => {
-    const ingredients = ingredientsData.filter((item) => item.type === category.name);
+    const ingredients = useMemo(() => {
+        return ingredientsData.filter((item) => item.type === category.name)
+
+    }, [category.name, ingredientsData]);
 
     return (
         <li ref={elRef} id={category.name}>

@@ -1,0 +1,38 @@
+.container {
+    width: 480px;
+    /* height: 550px;
+    max-height: 574px; */
+    margin: 140px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    margin-top: 80px;
+    width: 100%;
+    text-align: center;
+}
+
+
+.inputWrapper>div>div {
+    width: 480px;
+}
+
+.link {
+    color: #4C4CFF;
+    text-decoration: none;
+}
+
+.register__container {
+    margin: 80px auto 0 auto;
+}
+
+.forgotPassword__container {
+    height: 422px;
+    margin: 80px auto 0 auto;
+}
+
+.restPassword__container {
+    margin: 80px auto 0 auto;
+}
