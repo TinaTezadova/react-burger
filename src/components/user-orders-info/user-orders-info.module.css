@@ -1,0 +1,22 @@
+.ordersBlock {
+    width: 852px;
+}
+
+.list {
+    max-height: calc(100vh - 128px);
+    overflow-y: auto;
+    list-style: none;
+    padding: 0 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 0;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 0;
+}

@@ -247,13 +247,14 @@ export const logout = () => async (dispatch) => {
 export const updateToken = () => async (dispatch) => {
     try {
         const data = await updateTokenRequest(getCookie('refreshToken'));
-        deleteCookie('accessToken');
         setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
         dispatch(getUser())
 
 
     } catch (e) {
-        console.log(e)
+        deleteCookie('accessToken');
+        deleteCookie('refreshToken');
+        console.log(e);
     }
 };
 

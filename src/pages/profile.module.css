@@ -1,6 +1,6 @@
 .wrapper {
     max-width: 1280px;
-    margin-top: 80px;
+    margin-top: 40px;
     width: 100%;
 }
 
@@ -25,7 +25,7 @@
 
 .navigation {
     width: 320px;
-    margin-bottom: 80px;
+    margin: 40px 0 80px 0;
 }
 
 .list_items {

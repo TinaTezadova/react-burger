@@ -14,3 +14,12 @@ export const ingredientItem = {
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
 }
+
+export const orderItem = {
+    _id: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientItem)).isRequired
+}

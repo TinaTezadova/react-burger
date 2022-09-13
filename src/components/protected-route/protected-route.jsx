@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { getCookie } from '../../utils/cookie';
 
 export const ProtectedRoute = ({ children, ...otherProps }) => {

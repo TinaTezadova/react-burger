@@ -13,6 +13,9 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { IngredientDetailsPage } from '../../pages/ingredient-details';
 import { getIngredientsData } from '../../services/actions/constructor';
+import { Feed } from '../../pages/feed';
+import { OrderDetailPage } from '../../pages/order-detail';
+import { OrderCardDetail } from '../order-card-detail/order-card-detail';
 import styles from './app.module.css'
 
 const App = () => {
@@ -33,9 +36,9 @@ const App = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Идет загрузка данных</div>
+        return <p className={`text text_type_main-default mt-2`}>Идет загрузка данных</p>
     } else if (isError) {
-        return <div>Произошла ошибка</div>;
+        return <p className={`text text_type_main-default mt-2`}>Произошла ошибка</p>;
     }
 
 
@@ -68,17 +71,33 @@ const App = () => {
                         <MainPage />
                     </Route>
 
-                    <Route path="/ingredients/:id" component={IngredientDetailsPage} />
+                    <Route path="/ingredients/:id">
+                        <IngredientDetailsPage />
+                    </Route>
+
+                    <Route path="/feed" exact={true}>
+                        <Feed />
+                    </Route>
+                    <Route path="/feed/:id">
+                        <OrderDetailPage />
+                    </Route>
 
 
                 </Switch>
 
                 {background && (
-                    <Route path='/ingredients/:id' >
-                        <Modal handleCloseModal={handleCloseModal}>
+                    <Modal handleCloseModal={handleCloseModal}>
+                        <Route path='/ingredients/:id' >
                             <IngredientDetails />
-                        </Modal>
-                    </Route>
+                        </Route>
+                        <Route path="/feed/:id">
+                            <OrderCardDetail />
+                        </Route>
+                        <Route path="/profile/orders/:id">
+                            <OrderCardDetail />
+                        </Route> 
+                    </Modal>
+
                 )}
 
 

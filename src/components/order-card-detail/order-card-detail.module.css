@@ -1,0 +1,38 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.number {
+    text-align: center;
+}
+
+.listBlock {
+    list-style: none;
+    max-height: 312px;
+    padding: 0 24px 0 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.listBlock::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listBlock::-webkit-scrollbar-thumb {
+    border-radius: 0;
+}
+
+.priceAndDateInfoBlock {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceInfo {
+    display: flex;
+    gap: 8px;
+}

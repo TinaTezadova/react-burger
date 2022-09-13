@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { logout, getUser, updateUser } from '../services/actions/auth';
 import useForm from '../hooks/use-form';
-import styles from './profile.module.css'
+import { UserOrdersInfo } from '../components/user-orders-info/user-orders-info'
+import styles from './profile.module.css';
 
 export const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -107,7 +108,7 @@ export const ProfilePage = () => {
                             </Route>
 
                             <Route path='/profile/orders' exact={true}>
-                                <div>История заказов</div>
+                               <UserOrdersInfo />
                             </Route>
                         </Switch>
 

@@ -1,0 +1,19 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.priceInfoBlock {
+    display: flex;
+    gap: 8px;
+    justify-self: flex-end;
+}
