@@ -5,7 +5,6 @@ import { openWsConnection, closeWsConnection } from '../services/actions/web-soc
 import getIngredientById from '../utils/get-ingredient-by-id';
 import { orderStatuses } from '../utils/consts';
 import styles from './feed.module.css'
-import { WS_ENDPOINT_ALL } from '../utils/web-socket';
 
 export const Feed = () => {
     const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export const Feed = () => {
     }, [ingredientsData, ordersData]);
 
     useEffect(() => {
-        dispatch(openWsConnection(WS_ENDPOINT_ALL))
+        dispatch(openWsConnection('/all'))
         return () => dispatch(closeWsConnection())
 
     }, []);
