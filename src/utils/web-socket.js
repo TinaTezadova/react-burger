@@ -21,5 +21,5 @@ export const WS_ACTIONS = {
     wsConectionClosed: wsConectionClosed()
 }
 
-export const WS_ENDPOINT_ALL = '/all';
-export const WS_ENDPOINT_POFILE_ORDERS = `?token=${getCookie('accessToken')}`
+export const WS_ENDPOINT_ALL = 'all';
+export const WS_ENDPOINT_POFILE_ORDERS = 'profile'

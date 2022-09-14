@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { OrderCardDetail } from '../components/order-card-detail/order-card-detail';
 import { openWsConnection, closeWsConnection } from '../services/actions/web-socket';
 import PropTypes from 'prop-types';
+import { WS_ENDPOINT_ALL } from '../utils/web-socket';
 import styles from './order-detail.module.css';
+import { getCookie } from '../utils/cookie';
 
 export const OrderDetailPage = ({ wsConnectionEndpoint }) => {
     const dispatch = useDispatch();
     const { errorInfo, ordersData } = useSelector((store) => store.orders);
     useEffect(() => {
-        dispatch(openWsConnection(wsConnectionEndpoint))
+        dispatch(openWsConnection(wsConnectionEndpoint === WS_ENDPOINT_ALL ? '/all' : `?token=${getCookie('accessToken')}`))
         return () => dispatch(closeWsConnection())
 
     }, []);

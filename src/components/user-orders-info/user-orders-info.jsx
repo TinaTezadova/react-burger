@@ -4,7 +4,7 @@ import { openWsConnection, closeWsConnection } from '../../services/actions/web-
 import getIngredientById from '../../utils/get-ingredient-by-id';
 import { OrderCard } from '../order-card/order-card';
 import styles from './user-orders-info.module.css'
-import { WS_ENDPOINT_POFILE_ORDERS } from '../../utils/web-socket';
+import { getCookie } from '../../utils/cookie';
 
 export const UserOrdersInfo = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export const UserOrdersInfo = () => {
     }, [ingredientsData, ordersData]);
 
     useEffect(() => {
-        dispatch(openWsConnection(WS_ENDPOINT_POFILE_ORDERS))
+        dispatch(openWsConnection(`?token=${getCookie('accessToken')}`))
         return () => dispatch(closeWsConnection())
 
     }, [])
