@@ -1,4 +1,8 @@
 .wrapper {
+    padding: 40px;
+}
+
+.mainContentBlock {
     width: 100%;
     display: flex;
     flex-direction: column;

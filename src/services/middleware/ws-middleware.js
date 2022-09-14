@@ -1,18 +1,16 @@
-import {WS_CONNECTION_START, WS_DISCONNECT, wsConectionSuccess, wsConectionFailed, wsConectionClosed, wsGetMessage, clearWsData } from '../actions/web-socket';
-export const webSocketMiddleware = (wsUrl) => {
+export const webSocketMiddleware = (wsUrl, wsActions) => {
     let socket = null;
     return (store) => (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
+      const { wsStart, wsDisconnect, wsClearData, wsConectionSuccess, wsConectionFailed, wsGetMessage, wsConectionClosed, } = wsActions;
   
-      if (type === WS_CONNECTION_START) {
+      if (type === wsStart) {
         socket = new WebSocket(`${wsUrl}${payload}`);
       }
-  
 
-
-      if (type === WS_DISCONNECT) {
-        dispatch(clearWsData());
+      if (type === wsDisconnect) {
+        dispatch(wsClearData);
         socket.close(1000, 'Сlose the connection');
         socket = null;
       }
@@ -23,15 +21,15 @@ export const webSocketMiddleware = (wsUrl) => {
         };
   
         socket.onerror = (event) => {
-          dispatch(wsConectionFailed(event));
+          dispatch({...wsConectionFailed, payload: event});
         };
   
         socket.onclose = () => {
-          dispatch(wsConectionClosed());
+          dispatch(wsConectionClosed);
         };
   
         socket.onmessage = ({ data }) => {
-          dispatch(wsGetMessage(JSON.parse(data)));
+          dispatch({...wsGetMessage, payload: JSON.parse(data)});
         };
       }
       return next(action);

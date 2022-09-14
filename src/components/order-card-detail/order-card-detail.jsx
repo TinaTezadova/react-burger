@@ -33,8 +33,8 @@ export const OrderCardDetail = () => {
     }
 
     return (
-        <div style={{padding: '40px'}}>
         <div className={styles.wrapper}>
+        <div className={styles.mainContentBlock}>
             <p className={`text text_type_digits-default ${styles.number}`}>#{orderData.number}</p>
             <h1 className={'text text_type_main-medium mt-10 mb-3'}>{orderData.name}</h1>
             <p className={`text text_type_main-default mb-15 ${orderData.status === orderStatuses.done ? 'text_color_success' : null}`}>{statusText}</p>

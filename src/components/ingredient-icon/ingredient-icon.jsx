@@ -13,5 +13,5 @@ export const IngredientIcon = ({ imageUrl, count }) => {
 
 IngredientIcon.propTypes = {
     imageUrl: PropTypes.string.isRequired,
-    count: PropTypes.number.isRequired,
+    count: PropTypes.number,
 }

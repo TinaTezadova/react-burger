@@ -59,6 +59,6 @@ export const OrderCard = ({ orderData, showStatus = false }) => {
 }
 
 OrderCard.propTypes = {
-  orderData: PropTypes.arrayOf(PropTypes.shape(orderItem)).isRequired,
+  orderData: PropTypes.shape(orderItem).isRequired,
   showStatus: PropTypes.bool,
 }
