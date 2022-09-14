@@ -26,11 +26,14 @@ export const OrderCardDetail = () => {
         }
 
     }, [ingredientsData, order]);
-    const { statusText, orderDate, totalAmout } = useOrderInfo(orderData.status, orderData.createdAt, orderData.ingredients)
+    const { statusText, orderDate, totalAmout } = useOrderInfo(orderData?.status, orderData?.createdAt, orderData?.ingredients)
+    
 
     if (!orderData) {
         return <div>Идет загрузка данных</div>
     }
+
+    
 
     return (
         <div className={styles.wrapper}>

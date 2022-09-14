@@ -52,7 +52,7 @@ export const useOrderInfo = (orderStatus, date, ingredients) => {
 
   const totalAmoutInfo = useMemo(() => {
     let sum = 0;
-    ingredients.forEach((item) => sum += item.price);
+    ingredients?.forEach((item) => sum += item.price * item.quantity);
     return sum
   }, [])
 

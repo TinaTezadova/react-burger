@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderCardDetail } from '../components/order-card-detail/order-card-detail';
 import { openWsConnection, closeWsConnection } from '../services/actions/web-socket';
+import PropTypes from 'prop-types';
 import styles from './order-detail.module.css';
 
-export const OrderDetailPage = () => {
+export const OrderDetailPage = ({ wsConnectionEndpoint }) => {
     const dispatch = useDispatch();
     const { errorInfo, ordersData } = useSelector((store) => store.orders);
     useEffect(() => {
-        dispatch(openWsConnection('/all'))
+        dispatch(openWsConnection(wsConnectionEndpoint))
         return () => dispatch(closeWsConnection())
 
     }, []);
@@ -24,4 +25,8 @@ export const OrderDetailPage = () => {
             <OrderCardDetail />
         </div>
     )
+}
+
+OrderDetailPage.propTypes = {
+    wsConnectionEndpoint: PropTypes.string.isRequired,
 }

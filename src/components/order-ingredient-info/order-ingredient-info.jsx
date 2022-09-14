@@ -14,7 +14,7 @@ export const OrderIngredientInfo = ({ ingredient }) => {
             </div>
 
             <div className={styles.priceInfoBlock}>
-                <p className={'text text_type_digits-default'}>{`${ingredient.count} x ${ingredient.price.toLocaleString('ru-RU')}`}</p>
+                <p className={'text text_type_digits-default'}>{`${ingredient?.quantity} x ${ingredient.price.toLocaleString('ru-RU')}`}</p>
                 <CurrencyIcon type='primary' />
             </div>
         </div>

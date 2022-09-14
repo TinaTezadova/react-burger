@@ -16,6 +16,7 @@ import { getIngredientsData } from '../../services/actions/constructor';
 import { Feed } from '../../pages/feed';
 import { OrderDetailPage } from '../../pages/order-detail';
 import { OrderCardDetail } from '../order-card-detail/order-card-detail';
+import { WS_ENDPOINT_ALL, WS_ENDPOINT_POFILE_ORDERS } from '../../utils/web-socket'
 import styles from './app.module.css'
 
 const App = () => {
@@ -63,10 +64,6 @@ const App = () => {
                         <ResetPasswordPage />
                     </Route>
 
-                    <ProtectedRoute path='/profile'>
-                        <ProfilePage />
-                    </ProtectedRoute>
-
                     <Route path='/' exact={true}>
                         <MainPage />
                     </Route>
@@ -79,8 +76,14 @@ const App = () => {
                         <Feed />
                     </Route>
                     <Route path="/feed/:id">
-                        <OrderDetailPage />
+                        <OrderDetailPage wsConnectionEndpoint={WS_ENDPOINT_ALL}/>
                     </Route>
+                    <ProtectedRoute path="/profile/orders/:id">
+                        <OrderDetailPage wsConnectionEndpoint={WS_ENDPOINT_POFILE_ORDERS}/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/profile'>
+                        <ProfilePage />
+                    </ProtectedRoute>
 
 
                 </Switch>
@@ -95,7 +98,7 @@ const App = () => {
                         </Route>
                         <Route path="/profile/orders/:id">
                             <OrderCardDetail />
-                        </Route> 
+                        </Route>
                     </Modal>
 
                 )}

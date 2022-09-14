@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCookie } from '../../utils/cookie';
 import { openWsConnection, closeWsConnection } from '../../services/actions/web-socket';
 import getIngredientById from '../../utils/get-ingredient-by-id';
 import { OrderCard } from '../order-card/order-card';
 import styles from './user-orders-info.module.css'
+import { WS_ENDPOINT_POFILE_ORDERS } from '../../utils/web-socket';
 
 export const UserOrdersInfo = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export const UserOrdersInfo = () => {
     }, [ingredientsData, ordersData]);
 
     useEffect(() => {
-        dispatch(openWsConnection(`?token=${getCookie('accessToken')}`))
+        dispatch(openWsConnection(WS_ENDPOINT_POFILE_ORDERS))
         return () => dispatch(closeWsConnection())
 
     }, [])
