@@ -1,5 +1,6 @@
 import { getIngredients, getOrder } from '../../utils/burger-api';
 import update from 'immutability-helper';
+import { getCookie } from '../../utils/cookie';
 
 import {
   GET_INGREDIENTS_REQUEST,
@@ -152,7 +153,7 @@ export const getIngredientsData = () => async (dispatch) => {
 export const getOrderDetail = (ingredientsId) => async (dispatch) => {
   try {
     dispatch(getOrderRequest());
-    const res = await getOrder(ingredientsId);
+    const res = await getOrder(ingredientsId, getCookie('accessToken'));
     dispatch(getOrderSuccess(res));
 
   } catch (e) {

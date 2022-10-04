@@ -10,8 +10,10 @@ import { rootReducer } from './services/reducers/index';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter as Router } from "react-router-dom";
+import { webSocketMiddleware } from './services/middleware/ws-middleware';
+import { WsURL, WS_ACTIONS } from './utils/web-socket';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk, webSocketMiddleware(WsURL, WS_ACTIONS))));
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
