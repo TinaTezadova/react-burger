@@ -1,12 +1,19 @@
 import React from 'react';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
-import PropTypes from 'prop-types';
+import { IIngredientItem, IFindItemResult } from '../../types/type';
 import styles from './constructor-item.module.css';
 
+interface IProps {
+  item: IIngredientItem,
+  handleDeleteIngredient(id: string, price: number):void,
+  findItem(id: string):IFindItemResult,
+  sortIngredients(id: string, index: number): void,
+}
 
-export const ConstructorItem = ({item, handleDeleteIngredient, findItem, sortIngredients}: any) => {
-  const originalIndex = findItem(item._id).currentIndex
+
+export const ConstructorItem: React.FC<IProps> = ({item, handleDeleteIngredient, findItem, sortIngredients}) => {
+  const originalIndex: number = findItem(item._id).currentIndex
   const [, drag] = useDrag(
     () => ({
       type: 'constructor',
@@ -46,12 +53,4 @@ const [, drop] = useDrop({
 
         </li>
     )
-}
-
-ConstructorItem.propTypes = {
-  item: PropTypes.object.isRequired,
-  handleDeleteIngredient: PropTypes.func.isRequired,
-  findItem: PropTypes.func.isRequired,
-  sortIngredients: PropTypes.func.isRequired,
-  
 }

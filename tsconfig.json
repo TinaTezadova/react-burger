@@ -19,10 +19,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noImplicitAny": false
+    "suppressImplicitAnyIndexErrors": true,
   },
   "include": [
     "src",
-    "./declarations.d.ts"
+    "typings.d.ts"
   ]
-}
+} 
