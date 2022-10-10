@@ -31,7 +31,7 @@ export const wsGetMessage = (payload: IOrdersData): IWsGetMessageAction => {
     }
 };
 
-export const wsConectionFailed = (payload: any): IWsConectionFailedAction => {
+export const wsConectionFailed = (payload: string): IWsConectionFailedAction => {
     return {
         type: WS_CONNECTION_ERROR,
         payload

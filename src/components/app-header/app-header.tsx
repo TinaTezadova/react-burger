@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink, useLocation } from "react-router-dom";
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ILocation } from '../../types/type';
 import styles from './app-header.module.css';
 
 const AppHeader: React.FC = () => {
-    const { pathname } = useLocation<{ pathname: string }>()
+    const { pathname } = useLocation<ILocation>()
 
     return (
         <header className={`${styles.header} m-10`}>

@@ -20,7 +20,7 @@ export interface IWsGetMessageAction {
 
 export interface IWsConectionFailedAction {
     readonly type: typeof WS_CONNECTION_ERROR;
-    readonly payload: any;
+    readonly payload: string;
 };
 
 export interface IWsConectionClosedAction {
@@ -49,7 +49,7 @@ export interface IWsMiddlwareActions {
     wsDisconnect: typeof WS_DISCONNECT,
     wsClearData: IWsClearWsDataAction,
     wsConectionSuccess: IWsConectionSuccessAction,
-    wsConectionFailed: (arg: any) => IWsConectionFailedAction,
+    wsConectionFailed: (arg: string) => IWsConectionFailedAction,
     wsGetMessage: (arg: IOrdersData) => IWsGetMessageAction,
     wsConectionClosed: IWsConectionClosedAction
 }

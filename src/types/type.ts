@@ -1,6 +1,6 @@
 import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator } from 'redux';
-import { store } from '../index';
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { rootReducer } from '../services/reducers';
 import { TAuthActions } from '../services/actions/types/auth';
 import { TConstructorActions } from '../services/actions/types/constructor';
 import { TWebSocketActions } from '../services/actions/types/web-socket';
@@ -99,14 +99,14 @@ export interface IOrderDetailResult {
     order: IOrderItem & IOrderOwner
 }
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type TApplicationActions = TAuthActions | TConstructorActions | TWebSocketActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = Dispatch<TAuthActions | TConstructorActions | TWebSocketActions>;
 
 
 export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
@@ -134,4 +134,15 @@ export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
     readonly url: string;
     clone(): Response;
   }
+
+  export interface ILocation {
+    pathname: string;
+    search: string;
+    state: ILocation | null
+    hash: string;
+    key?: string | undefined;
+}
   
+  export interface ILocationWithBackground extends ILocation{
+    background?: Omit<ILocation, 'background'>;
+}

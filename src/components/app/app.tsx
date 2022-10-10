@@ -17,15 +17,17 @@ import { OrderDetailPage } from '../../pages/order-detail';
 import { OrderCardDetail } from '../order-card-detail/order-card-detail';
 import { WS_ENDPOINT_ALL, WS_ENDPOINT_POFILE_ORDERS } from '../../utils/web-socket';
 import { useDispatch, useSelector } from '../../hooks/react-redux';
+import { ILocationWithBackground } from '../../types/type'
 import styles from './app.module.css'
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation<any>();
+    const location = useLocation<ILocationWithBackground>();
     const isLoading = useSelector(state => state.constructor.ingredientsRequest);
     const isError = useSelector(state => state.constructor.ingredientsRequestFailed);
     const background = location.state?.background;
+    
 
     const handleCloseModal = (): void => {
         history.goBack();

@@ -2,7 +2,7 @@ import { IEmailPassword, IUserInfoParams, CustomResponse, TResponseBody, IIngred
 export const BASE_API = 'https://norma.nomoreparties.space/api';
 
 export const checkResponse = (response: CustomResponse<TResponseBody>): Promise<any>  => {
-    return response.ok ? response.json() : response.json().then((err: any) => Promise.reject(err));
+    return response.ok ? response.json() : response.json().then((err: TResponseBody) => Promise.reject(err));
 };
 
 export const getIngredients = async (): Promise<TResponseBody<'data', IIngredientItem[]>> => {

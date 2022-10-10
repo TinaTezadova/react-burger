@@ -1,7 +1,10 @@
-import { IWsMiddlwareActions, TWebSocketActions } from '../actions/types/web-socket';
-export const webSocketMiddleware = (wsUrl: string, wsActions: IWsMiddlwareActions) => {
-    let socket: any = null;
-    return (store: { dispatch: any; }) => (next: (action: TWebSocketActions) => void) => (action: TWebSocketActions & {payload: any}) => {
+import { Middleware } from 'redux';
+import { IWsMiddlwareActions } from '../actions/types/web-socket';
+import { RootState, AppDispatch } from '../../types/type'
+
+export const webSocketMiddleware = (wsUrl: string, wsActions: IWsMiddlwareActions): Middleware<{}, RootState, AppDispatch> => {
+    let socket: WebSocket | null = null;
+    return (store) => (next) => (action) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsStart, wsDisconnect, wsClearData, wsConectionSuccess, wsConectionFailed, wsGetMessage, wsConectionClosed, } = wsActions;
@@ -10,7 +13,7 @@ export const webSocketMiddleware = (wsUrl: string, wsActions: IWsMiddlwareAction
         socket = new WebSocket(`${wsUrl}${payload}`);
       }
 
-      if (type === wsDisconnect) {
+      if (type === wsDisconnect && socket) {
         dispatch(wsClearData);
         socket.close(1000, 'Сlose the connection');
         socket = null;
@@ -21,15 +24,15 @@ export const webSocketMiddleware = (wsUrl: string, wsActions: IWsMiddlwareAction
           dispatch(wsConectionSuccess);
         };
   
-        socket.onerror = (event: any) => {
-          dispatch(wsConectionFailed(event));
+        socket.onerror = () => {
+          dispatch(wsConectionFailed('wsConectionFailed'));
         };
   
         socket.onclose = () => {
           dispatch(wsConectionClosed);
         };
   
-        socket.onmessage = ({ data }: any) => {
+        socket.onmessage = ({ data } : MessageEvent) => { 
           dispatch(wsGetMessage(JSON.parse(data)));
         };
       }

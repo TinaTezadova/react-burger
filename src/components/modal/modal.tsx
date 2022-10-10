@@ -10,9 +10,9 @@ interface IProps {
 }
 
 const Modal = ({ handleCloseModal, children }: IProps) => {
-    const [modalContainer, setModalContainer] = useState<any>();
+    const [modalContainer, setModalContainer] = useState<Element | null>(null);
 
-    const createModalContainer = (): HTMLElement => {
+    const createModalContainer = (): HTMLDivElement => {
         const container = document.createElement('div')
         container.setAttribute('id', 'modalWrapper')
         document.body.appendChild(container);
@@ -33,11 +33,13 @@ const Modal = ({ handleCloseModal, children }: IProps) => {
         if(!modalContainer) {
             modalContainerEl = createModalContainer();
         }
-        setModalContainer(modalContainer);
+        setModalContainer(modalContainerEl);
 
         return () => {
-            modalContainer?.parentNode.removeChild(modalContainer);
             document.removeEventListener('keydown', handleCloseOnEsc);
+            if(modalContainer) {
+                document.body.removeChild(modalContainer);
+            }
         }
 
     }, [])

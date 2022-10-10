@@ -5,21 +5,21 @@ import { logout, getUser, updateUser, updateToken } from '../services/actions/au
 import useForm from '../hooks/use-form';
 import { UserOrdersInfo } from '../components/user-orders-info/user-orders-info';
 import { useDispatch, useSelector } from '../hooks/react-redux';
+import { ILocation } from '../types/type';
 import styles from './profile.module.css';
 
 export const ProfilePage: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation<{pathname: string}>();
+    const location = useLocation<ILocation>();
     const isLoading = useSelector((state) => state.auth.getUserRequest);
     const isError = useSelector((state) => state.auth.getUserFailed);
     const user = useSelector((state) => state.auth.userData);
-    const getUserFailed = useSelector((state) => state.auth.getUserFailed);
     const updateTokenSuccess = useSelector((state) => state.auth.updateTokenSuccess);
     const { values, handleChange, setValues } = useForm({ name: '', email: '', password: '' });
 
-    const handleLogOutClick = async (): Promise<any> => {
-        await dispatch(logout());
+    const handleLogOutClick = () => {
+        dispatch(logout());
         history.replace({ pathname: '/login' });
     };
 
@@ -28,11 +28,11 @@ export const ProfilePage: React.FC = () => {
     }, [dispatch]);
 
     useEffect((): void => {
-        if(getUserFailed) {
+        if(isError) {
             dispatch(updateToken())
         }
 
-    }, [dispatch, getUserFailed])
+    }, [dispatch, isError])
     
     useEffect((): void => {
         if(updateTokenSuccess) {

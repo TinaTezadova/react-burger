@@ -34,7 +34,7 @@ export const ConstructorItem: React.FC<IProps> = ({item, handleDeleteIngredient,
 
 const [, drop] = useDrop({
   accept: "constructor",
-  hover({id}:any) {
+  hover({id}:{id: string}) {
     if (id !== item._id) {
       const { currentIndex } = findItem(item._id)
       sortIngredients(id, currentIndex)
