@@ -2,8 +2,7 @@ name: Build and Deploy
 on:
   pull_request:
   push:
-    branches:
-      - dev
+    branches: ["dev"]
 permissions:
   contents: write
 jobs:
