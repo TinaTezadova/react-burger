@@ -208,6 +208,8 @@ export const recoveryPassword: AppThunk = (params: {email: string}) => async (di
     try {
         dispatch(recoveryPasswordRequest());
         const res = await passwordRecovery(params);
+        console.log(res);
+        
         dispatch(recoveryPasswordSuccess());
 
     } catch (e) {
@@ -220,6 +222,7 @@ export const resetPassword: AppThunk = (params: IEmailPassword) => async (dispat
     try {
         dispatch(resetPasswordRequest());
         const res = await postResetPassword(params);
+        console.log(res);
         dispatch(resetPasswordSuccess());
 
     } catch (e) {

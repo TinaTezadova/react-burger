@@ -41,7 +41,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
     useEffect(() => {
         dispatch(getIngredientsForConstructor())
 
-    }, []);
+    }, [dispatch]);
 
     const handleOrderClick = (): void => {
         const ingredientsId = { ingredients: [...ingredienList.map((item) => item._id), bun, bun] }

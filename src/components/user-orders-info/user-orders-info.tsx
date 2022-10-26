@@ -26,7 +26,7 @@ export const UserOrdersInfo: React.FC = () => {
         dispatch(openWsConnection(`?token=${getCookie('accessToken')}`))
         return () => dispatch(closeWsConnection())
 
-    }, [])
+    }, [dispatch])
 
     if (errorInfo) {
         return <p className={`text text_type_main-default mt-2`}>Произошла ошибка</p>

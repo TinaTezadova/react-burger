@@ -26,7 +26,7 @@ export const Feed: React.FC = () => {
         dispatch(openWsConnection('/all'))
         return () => dispatch(closeWsConnection())
 
-    }, []);
+    }, [dispatch]);
 
     const orderStatusesList = useMemo((): {done: number[], inProgress: number[]} => {
         const done: number[] = [];

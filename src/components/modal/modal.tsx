@@ -42,7 +42,7 @@ const Modal = ({ handleCloseModal, children }: IProps) => {
             }
         }
 
-    }, [])
+    }, [handleCloseOnEsc, modalContainer])
 
 
     return modalContainer && ReactDOM.createPortal(

@@ -38,7 +38,7 @@ const App: React.FC = () => {
         history.replace({ state: null })
         console.log('ACtions test3');
         
-    }, []);
+    }, [dispatch, history]);
 
     if (isLoading) {
         return <p className={`text text_type_main-default mt-2`}>Идет загрузка данных</p>

@@ -17,7 +17,7 @@ export const OrderDetailPage: React.FC<IProps> = ({ wsConnectionEndpoint }) => {
         dispatch(openWsConnection(wsConnectionEndpoint === WS_ENDPOINT_ALL ? '/all' : `?token=${getCookie('accessToken')}`))
         return () => dispatch(closeWsConnection())
 
-    }, []);
+    }, [dispatch, wsConnectionEndpoint]);
 
     if (errorInfo) {
         return <p className={`text text_type_main-default mt-2`}>Произошла ошибка</p>
