@@ -36,6 +36,8 @@ const App: React.FC = () => {
     useEffect((): void => {
         dispatch(getIngredientsData())
         history.replace({ state: null })
+        console.log('ACtions');
+        
     }, []);
 
     if (isLoading) {
