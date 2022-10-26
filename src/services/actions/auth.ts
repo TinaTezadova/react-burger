@@ -276,6 +276,8 @@ export const logout: AppThunk = () => async (dispatch: AppDispatch) => {
     try {
         dispatch(logoutRequest());
         const data = await logoutReq(getCookie('refreshToken'));
+        console.log(data);
+        
         deleteCookie('accessToken');
         deleteCookie('refreshToken');
         dispatch(logoutSuccess());

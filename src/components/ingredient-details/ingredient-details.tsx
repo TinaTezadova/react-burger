@@ -6,6 +6,7 @@ import { IIngredientItem } from '../../types/type';
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails: React.FC = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const ingredientsData = useSelector(state => state.constructor.ingredientsData) || [];
     const { id } = useParams<{id: string}>();
     const ingredient = useMemo(():IIngredientItem  => {

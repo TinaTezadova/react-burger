@@ -42,7 +42,8 @@ const Modal = ({ handleCloseModal, children }: IProps) => {
             }
         }
 
-    }, [handleCloseOnEsc, modalContainer])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalContainer])
 
 
     return modalContainer && ReactDOM.createPortal(

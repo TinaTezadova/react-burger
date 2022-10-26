@@ -59,13 +59,14 @@ export const useOrderInfo = (orderStatus?: TOrderStatuses, date?: string, ingred
 
   const formatedDate = useMemo((): string => {
     return `${formatDate()}, ${orderCreatedDate.getHours()}:${orderCreatedDate.getMinutes()} i-GMT+3`;
-  }, [date]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderCreatedDate]);
 
   const totalAmoutInfo = useMemo(() => {
     let sum = 0;
     ingredients?.forEach((item) => sum += item.price * item.quantity);
     return sum
-  }, [])
+  }, [ingredients])
 
 
   useEffect(() => {
