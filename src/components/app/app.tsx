@@ -36,7 +36,7 @@ const App: React.FC = () => {
     useEffect((): void => {
         dispatch(getIngredientsData())
         history.replace({ state: null })
-        console.log('ACtions test');
+        console.log('ACtions test2');
         
     }, []);
 
