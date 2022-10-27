@@ -1,9 +1,6 @@
 name: Build and Deploy
 on:
   pull_request:
-      types:
-      - closed
-      - opened
   push:
     branches: ["dev"]
 permissions:
@@ -26,6 +23,10 @@ jobs:
           npm ci
           npm run build
 
+  deploy: 
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy
         if: github.event.pull_request.merged == true
         uses: JamesIves/github-pages-deploy-action@v4
