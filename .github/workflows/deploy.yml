@@ -24,7 +24,6 @@ jobs:
 
   deploy:
     if: github.event.pull_request.merged == true
-    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - name: Build
