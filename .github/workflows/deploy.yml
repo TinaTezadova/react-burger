@@ -18,19 +18,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install and Lint
+      - name: Install and Build
         run: |
           npm ci
-
-  deploy:
-    if: startsWith(github.event.head_commit.message, 'Merge pull request')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: |
           npm run build
 
       - name: Deploy
+        if: startsWith(github.event.head_commit.message, 'Merge pull request')
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
