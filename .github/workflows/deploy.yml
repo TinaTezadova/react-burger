@@ -1,6 +1,7 @@
 name: Build and Deploy
 on:
   pull_request:
+      types: [opened, synchronize, reopened, closed]
   push:
     branches: ["dev"]
 permissions:
@@ -24,7 +25,7 @@ jobs:
           npm run build
 
       - name: Deploy
-        if: ${{ github.event.pull_request.merged }}
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
