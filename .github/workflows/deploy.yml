@@ -3,6 +3,7 @@ on:
   pull_request:
   push:
     branches: ["dev"]
+    types: [opened, synchronize, reopened, closed]
 permissions:
   contents: write
 jobs:
@@ -23,12 +24,10 @@ jobs:
           npm ci
 
       - name: Build
-        if: startsWith(github.event.head_commit.message, 'Merge pull request')
-        run: |
-          npm run build
+        run: npm run build
 
       - name: Deploy
-        if: startsWith(github.event.head_commit.message, 'Merge pull request')
+        if: github.event.pull_request.merged == true
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
