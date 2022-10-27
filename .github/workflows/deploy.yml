@@ -22,10 +22,12 @@ jobs:
         run: |
           npm ci
 
-      - name: Build and Deploy
+      - name: Build
         if: startsWith(github.event.head_commit.message, 'Merge pull request')
         run: |
           npm run build
+
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
