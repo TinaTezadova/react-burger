@@ -23,8 +23,11 @@ jobs:
           npm ci
           npm run build
 
+  deploy:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy
-        if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
