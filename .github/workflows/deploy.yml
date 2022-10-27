@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   pull_request:
   push:
-    branches: ["dev"]
+    branches: ["githubActions"]
 permissions:
   contents: write
 jobs:
