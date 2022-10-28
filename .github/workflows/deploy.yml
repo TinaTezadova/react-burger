@@ -2,7 +2,8 @@ name: Build and Deploy
 on:
   pull_request:
   push:
-    branches: ["dev"]
+    branches: 
+      - dev
     types: [opened, synchronize, reopened, closed]
 permissions:
   contents: write
